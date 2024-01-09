@@ -46,6 +46,7 @@ public class Questionnaire extends AppCompatActivity {
     int currentIndex = 0;
     FirebaseAuth auth;
     FirebaseFirestore db;
+    CheckBox selectedOption;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,62 +76,14 @@ public class Questionnaire extends AppCompatActivity {
         option3.setText(question.getWrongAnswer2());
         option4.setText(question.getWrongAnswer3());
 
-        option1.setOnClickListener(v -> {
-            if (option1.getText().toString().equals(question.getRightAnswer())){
-                Toast.makeText(Questionnaire.this, "+2500 points", Toast.LENGTH_SHORT).show();
-                result = result + 2500;
-                pointsText.setText(String.valueOf(result));
-            }
-            else{
-                Toast.makeText(Questionnaire.this, "-1000 points", Toast.LENGTH_SHORT).show();
-                result = result - 1000;
-                pointsText.setText(String.valueOf(result));
-            }
-        });
-
-        option2.setOnClickListener(v -> {
-            if (option2.getText().toString().equals(question.getRightAnswer())){
-                Toast.makeText(Questionnaire.this, "+2500 points", Toast.LENGTH_SHORT).show();
-                result = result + 2500;
-                pointsText.setText(String.valueOf(result));
-            }
-            else{
-                Toast.makeText(Questionnaire.this, "-1000 points", Toast.LENGTH_SHORT).show();
-                result = result - 1000;
-                pointsText.setText(String.valueOf(result));
-            }
-        });
-
-        option3.setOnClickListener(v -> {
-            if (option3.getText().toString().equals(question.getRightAnswer())){
-                Toast.makeText(Questionnaire.this, "+2500 points", Toast.LENGTH_SHORT).show();
-                result = result + 2500;
-                pointsText.setText(String.valueOf(result));
-            }
-            else{
-                Toast.makeText(Questionnaire.this, "-1000 points", Toast.LENGTH_SHORT).show();
-                result = result - 1000;
-                pointsText.setText(String.valueOf(result));
-            }
-        });
-
-        option4.setOnClickListener(v -> {
-            if (option4.getText().toString().equals(question.getRightAnswer())){
-                Toast.makeText(Questionnaire.this, "+2500 points", Toast.LENGTH_SHORT).show();
-                result = result + 2500;
-                pointsText.setText(String.valueOf(result));
-            }
-            else{
-                Toast.makeText(Questionnaire.this, "-1000 points", Toast.LENGTH_SHORT).show();
-                result = result - 1000;
-                pointsText.setText(String.valueOf(result));
-            }
-        });
+        option1.setOnClickListener(v -> handleCheckBoxClick(option1, questionData[currentIndex]));
+        option2.setOnClickListener(v -> handleCheckBoxClick(option2, questionData[currentIndex]));
+        option3.setOnClickListener(v -> handleCheckBoxClick(option3, questionData[currentIndex]));
+        option4.setOnClickListener(v -> handleCheckBoxClick(option4, questionData[currentIndex]));
 
         next.setOnClickListener(v -> {
-            currentIndex++;
 
-            if(currentIndex == questionData.length){
+            if(currentIndex == questionData.length-1){
                 finish();
                 Map<String, Object> data = new HashMap<>();
                 data.put("score", result);
@@ -141,71 +94,47 @@ public class Questionnaire extends AppCompatActivity {
                 intent.putExtra("score", result);
                 startActivity(intent);
             }
+            else{
+                currentIndex++;
+                QuestionData questionDataNextButton = questionData[currentIndex];
+                Log.d("DEBUG", String.valueOf(currentIndex));
+                Log.d("DEBUG", String.valueOf(questionData.length));
+                questionText.setText(questionDataNextButton.getQuestion());
+                option1.setText(questionDataNextButton.getRightAnswer());
+                option2.setText(questionDataNextButton.getWrongAnswer1());
+                option3.setText(questionDataNextButton.getWrongAnswer2());
+                option4.setText(questionDataNextButton.getWrongAnswer3());
 
-            QuestionData questionDataNextButton = questionData[currentIndex];
+                option1.setOnClickListener(v1 -> handleCheckBoxClick(option1, questionData[currentIndex]));
+                option2.setOnClickListener(v1 -> handleCheckBoxClick(option2, questionData[currentIndex]));
+                option3.setOnClickListener(v1 -> handleCheckBoxClick(option3, questionData[currentIndex]));
+                option4.setOnClickListener(v1 -> handleCheckBoxClick(option4, questionData[currentIndex]));
 
-            questionText.setText(questionDataNextButton.getQuestion());
-            option1.setText(questionDataNextButton.getRightAnswer());
-            option2.setText(questionDataNextButton.getWrongAnswer1());
-            option3.setText(questionDataNextButton.getWrongAnswer2());
-            option4.setText(questionDataNextButton.getWrongAnswer3());
-
-            option1.setOnClickListener(view -> {
-                if (option1.getText().toString().equals(questionDataNextButton.getRightAnswer())){
-                    Toast.makeText(Questionnaire.this, "+2500 points", Toast.LENGTH_SHORT).show();
-                    result = result + 2500;
-                    pointsText.setText(String.valueOf(result));
-                }
-                else{
-                    Toast.makeText(Questionnaire.this, "-1000 points", Toast.LENGTH_SHORT).show();
-                    result = result - 1000;
-                    pointsText.setText(String.valueOf(result));
-                }
-            });
-
-            option2.setOnClickListener(view -> {
-                if (option2.getText().toString().equals(questionDataNextButton.getRightAnswer())){
-                    Toast.makeText(Questionnaire.this, "+2500 points", Toast.LENGTH_SHORT).show();
-                    result = result + 2500;
-                    pointsText.setText(String.valueOf(result));
-                }
-                else{
-                    Toast.makeText(Questionnaire.this, "-1000 points", Toast.LENGTH_SHORT).show();
-                    result = result - 1000;
-                    pointsText.setText(String.valueOf(result));
-                }
-            });
-
-            option3.setOnClickListener(view -> {
-                if (option3.getText().toString().equals(questionDataNextButton.getRightAnswer())){
-                    Toast.makeText(Questionnaire.this, "+2500 points", Toast.LENGTH_SHORT).show();
-                    result = result + 2500;
-                    pointsText.setText(String.valueOf(result));
-                }
-                else{
-                    Toast.makeText(Questionnaire.this, "-1000 points", Toast.LENGTH_SHORT).show();
-                    result = result - 1000;
-                    pointsText.setText(String.valueOf(result));
-                }
-            });
-
-            option4.setOnClickListener(view -> {
-                if (option4.getText().toString().equals(questionDataNextButton.getRightAnswer())){
-                    Toast.makeText(Questionnaire.this, "+2500 points", Toast.LENGTH_SHORT).show();
-                    result = result + 2500;
-                    pointsText.setText(String.valueOf(result));
-                }
-                else{
-                    Toast.makeText(Questionnaire.this, "-1000 points", Toast.LENGTH_SHORT).show();
-                    result = result - 1000;
-                    pointsText.setText(String.valueOf(result));
-                }
-            });
-
-            option1.setChecked(false);
-            option2.setChecked(false);
-            option3.setChecked(false);
-            option4.setChecked(false);
+                option1.setChecked(false);
+                option2.setChecked(false);
+                option3.setChecked(false);
+                option4.setChecked(false);
+            }
         });
+    }
+
+    private void handleCheckBoxClick(CheckBox checkBox, QuestionData question) {
+        if (checkBox.isChecked()) {
+            if (selectedOption != null && selectedOption != checkBox) {
+                selectedOption.setChecked(false);
+            }
+            if (checkBox.getText().toString().equals(question.getRightAnswer())) {
+                Toast.makeText(Questionnaire.this, "+2500 points", Toast.LENGTH_SHORT).show();
+                result = result + 2500;
+                pointsText.setText(String.valueOf(result));
+            } else {
+                Toast.makeText(Questionnaire.this, "-1000 points", Toast.LENGTH_SHORT).show();
+                result = result - 1000;
+                pointsText.setText(String.valueOf(result));
+            }
+            selectedOption = checkBox;
+        } else {
+            selectedOption = null;
+        }
     }
 }
