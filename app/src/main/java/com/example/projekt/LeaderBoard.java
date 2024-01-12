@@ -20,6 +20,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class LeaderBoard extends AppCompatActivity {
@@ -51,6 +52,7 @@ public class LeaderBoard extends AppCompatActivity {
                     UserData userData = new UserData(id, score);
                     userDataList.add(userData);
                 }
+                Collections.sort(userDataList);
                 CustomAdapter adapter = new CustomAdapter(userDataList);
                 recyclerView.setAdapter(adapter);
             }

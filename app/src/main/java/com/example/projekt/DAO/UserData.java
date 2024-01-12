@@ -1,6 +1,6 @@
 package com.example.projekt.DAO;
 
-public class UserData {
+public class UserData implements Comparable<UserData>{
 
     public UserData(){}
 
@@ -26,5 +26,10 @@ public class UserData {
 
     public void setPoints(int points) {
         this.points = points;
+    }
+
+    @Override
+    public int compareTo(UserData other) {
+        return Integer.compare(this.points, other.points);
     }
 }
